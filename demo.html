@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>SUPPORTY C2 — Operator Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0D11;
+    --panel: #12161C;
+    --panel-alt: #171C23;
+    --border: #232A33;
+    --text: #E7ECF0;
+    --text-dim: #7C8896;
+    --text-mute: #4E5A66;
+    --green: #34D399;
+    --blue: #4E9BFF;
+    --red: #FA5252;
+    --amber: #F5A623;
+    --font: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--text); font-family:var(--font); }
+  .app{ display:grid; grid-template-rows:52px 1fr; height:100vh; }
+
+  .header{ display:flex; align-items:center; justify-content:space-between; padding:0 18px; border-bottom:1px solid var(--border); background:var(--panel); }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:15px; }
+  .brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--blue); }
+  .brand b{ color:var(--blue); }
+  .team{ font-size:12px; color:var(--text-dim); display:flex; align-items:center; gap:6px; margin-left:10px; }
+  .hstats{ display:flex; align-items:center; gap:18px; font-family:var(--mono); font-size:12px; }
+  .hstats span{ display:flex; align-items:center; gap:5px; }
+  .hstats .g{ color:var(--green); }
+  .hstats .g::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--green); display:inline-block; }
+  .hstats .a{ color:var(--amber); }
+  .hstats .a::before{ content:''; width:6px; height:6px; border-radius:50%; background:var(--amber); display:inline-block; }
+  .mission-clock{ font-family:var(--mono); font-weight:600; }
+
+  .body{ display:grid; grid-template-columns: 1fr 1fr 340px; grid-template-rows: 1fr 220px; gap:1px; background:var(--border); overflow:hidden; }
+
+  .cam{ background:#000; position:relative; overflow:hidden; }
+  .cam-hud{ position:absolute; inset:0; padding:10px 14px; font-family:var(--mono); font-size:11px; color:#fff; display:flex; flex-direction:column; justify-content:space-between; pointer-events:none; }
+  .cam-hud .row{ display:flex; justify-content:space-between; }
+  .cam-bg{ position:absolute; inset:0; background:linear-gradient(160deg,#1a1f26,#05060a); }
+  .cam-badge{ position:absolute; bottom:8px; left:10px; font-family:var(--mono); font-size:10px; color:#ff5c5c; display:flex; align-items:center; gap:5px; }
+  .cam-badge::before{ content:''; width:6px; height:6px; border-radius:50%; background:#ff5c5c; }
+  .cam-input{ position:absolute; bottom:30px; left:10px; right:10px; font-family:var(--mono); font-size:10px; color:var(--text-dim); }
+  .cam-btns{ position:absolute; bottom:8px; right:10px; display:flex; gap:6px; }
+  .cam-btns button{ font-family:var(--mono); font-size:10px; padding:4px 8px; border-radius:4px; border:1px solid var(--border); background:var(--panel-alt); color:var(--text); }
+  .cam-btns .stop{ background:var(--red); color:#fff; border-color:var(--red); }
+
+  .right-col{ display:flex; flex-direction:column; background:var(--panel); overflow:hidden; grid-row: 1 / 3; }
+
+  .panel-title{ display:flex; align-items:center; justify-content:space-between; padding:12px 14px 8px; font-weight:700; font-size:13px; border-bottom:1px solid var(--border); }
+  .panel-title .count{ font-family:var(--mono); font-size:11px; color:var(--green); font-weight:500; }
+
+  /* ---- NEW: Mission Queue (replaces Asset Roster) ---- */
+  .mq-list{ padding:10px 12px; display:flex; flex-direction:column; gap:8px; }
+  .mq-item{ background:var(--panel-alt); border:1px solid var(--border); border-radius:6px; padding:9px 11px; border-left:3px solid var(--text-mute); }
+  .mq-item.priority-high{ border-left-color: var(--red); box-shadow: 0 0 0 1px rgba(250,82,82,0.15) inset; }
+  .mq-item.priority-mid{ border-left-color: var(--amber); }
+  .mq-item.priority-low{ border-left-color: var(--text-mute); }
+  .mq-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:3px; }
+  .mq-tag{ font-family:var(--mono); font-size:9px; padding:1px 6px; border-radius:8px; font-weight:700; letter-spacing:0.5px; }
+  .mq-tag.high{ background:rgba(250,82,82,0.15); color:var(--red); }
+  .mq-tag.mid{ background:rgba(245,166,35,0.15); color:var(--amber); }
+  .mq-tag.low{ background:rgba(124,136,150,0.15); color:var(--text-dim); }
+  .mq-status{ font-family:var(--mono); font-size:9px; display:flex; align-items:center; gap:4px; }
+  .mq-status.active{ color:var(--green); }
+  .mq-status.queued{ color:var(--text-dim); }
+  .mq-status::before{ content:''; width:5px; height:5px; border-radius:50%; background:currentColor; }
+  .mq-name{ font-size:12.5px; font-weight:600; }
+  .mq-desc{ font-size:11px; color:var(--text-dim); margin-top:1px; }
+  .mq-done-divider{ font-family:var(--mono); font-size:10px; color:var(--text-mute); padding:6px 14px 2px; border-top:1px dashed var(--border); margin-top:4px; }
+  .mq-done{ padding:6px 12px 4px; font-family:var(--mono); font-size:11px; color:var(--text-mute); display:flex; justify-content:space-between; }
+  .mq-done b{ color: var(--green); }
+
+  /* Voice Command (unchanged position, below Mission Queue) */
+  .voice{ flex:1; display:flex; flex-direction:column; border-top:1px solid var(--border); min-height:0; }
+  .voice .panel-title span:last-child{ font-family:var(--mono); font-size:10px; color:var(--text-dim); }
+  .voice-log{ flex:1; overflow-y:auto; padding:10px 12px; display:flex; flex-direction:column; gap:8px; }
+  .msg{ font-size:12px; line-height:1.5; max-width:88%; }
+  .msg.system{ color:var(--text-dim); }
+  .msg.op{ align-self:flex-end; background:var(--blue); color:#fff; padding:6px 10px; border-radius:8px; font-weight:500; }
+  .msg.exec{ font-family:var(--mono); font-size:11px; color:var(--green); background:rgba(52,211,153,0.06); border-left:2px solid var(--green); padding:6px 10px; }
+  .voice-input{ display:flex; gap:8px; padding:10px 12px; border-top:1px solid var(--border); }
+  .voice-input input{ flex:1; background:var(--panel-alt); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:12px; }
+  .mic{ width:32px; height:32px; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; color:#fff; flex-shrink:0; }
+
+  /* Tactical map (unchanged) */
+  .map{ grid-column: 1 / 3; background:#0c0f13; position:relative; overflow:hidden; }
+  .map-title{ position:absolute; top:10px; left:14px; font-weight:700; font-size:12px; }
+  .map-grid{ position:absolute; top:10px; right:14px; font-family:var(--mono); font-size:10px; color:var(--text-dim); }
+  .map-bg{ position:absolute; inset:0; background-image: linear-gradient(rgba(78,155,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(78,155,255,0.05) 1px, transparent 1px); background-size:30px 30px; }
+  .wp{ position:absolute; display:flex; flex-direction:column; align-items:center; gap:3px; font-family:var(--mono); font-size:9px; color:var(--text-dim); }
+  .wp .pt{ width:9px; height:9px; border-radius:50%; }
+  .wp.ugv .pt{ background:var(--green); box-shadow:0 0 6px var(--green); }
+  .wp.air .pt{ background:var(--blue); box-shadow:0 0 6px var(--blue); }
+  .wp.wp2 .pt{ background:var(--amber); box-shadow:0 0 6px var(--amber); }
+  .wp.home .pt{ background:var(--text-mute); border:1px solid var(--text-dim); }
+
+  /* ---- NEW: Asset Ops Summary (replaces Mission stat panel) ---- */
+  .ops-summary{ background:var(--panel); padding:12px 14px; overflow-y:auto; }
+  .ops-row{ display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); }
+  .ops-row:last-child{ border-bottom:none; }
+  .ops-name{ font-size:12px; font-weight:700; display:flex; align-items:center; gap:6px; }
+  .ops-name .tag{ font-family:var(--mono); font-size:9px; color:var(--text-dim); font-weight:400; }
+  .ops-fields{ display:flex; gap:14px; font-family:var(--mono); font-size:10.5px; color:var(--text-dim); }
+  .ops-fields b{ color:var(--text); font-weight:600; }
+  .ops-fields .ok{ color:var(--green); }
+  .ops-fields .warn{ color:var(--amber); }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="brand">
+      <span class="dot"></span>
+      SUPPO<b>RTY · C2</b>
+      <span class="team">📁 Team Supporty · OPERATOR</span>
+    </div>
+    <div class="hstats">
+      <span class="g">LINK 4G · 92%</span>
+      <span class="g">GPS 14 SAT</span>
+      <span class="a">DRONE CAL</span>
+      <span class="mission-clock">MISSION T+00:41:12</span>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="cam">
+      <div class="cam-bg"></div>
+      <div class="cam-hud">
+        <div class="row"><span>GND SPD 1.3 KM/H<br>HDG 153°<br>MODE MANUAL</span><span style="text-align:right">BATT --V<br>NET LTE<br>● LINK</span></div>
+      </div>
+      <div class="cam-input">INPUT · G29 ✓ · GEAR D · STR A0 · THR A2 · BRK A5</div>
+      <div class="cam-btns">
+        <button class="stop">STOP</button>
+        <button>RTB</button>
+      </div>
+      <div class="cam-badge">REC UGV-1 · MULE-UGV · FRONT CAM</div>
+    </div>
+
+    <div class="cam">
+      <div class="cam-bg" style="background:linear-gradient(160deg,#12181f,#04060a)"></div>
+      <div class="cam-hud">
+        <div class="row"><span>AIR SPD 0.0 KM/H<br>HDG 104°<br>ALT 0 M</span><span style="text-align:right">BATT 16.4V<br>MODE MANUAL<br>VS 0.1 M/S</span></div>
+      </div>
+      <div class="cam-badge" style="color:var(--text-dim)"><span style="width:6px;height:6px;border-radius:50%;background:var(--text-dim);display:inline-block"></span>REC AIR-1 · T2-CRUZA · NOSE CAM · STANDBY</div>
+    </div>
+
+    <div class="right-col">
+      <div class="panel-title">
+        <span>🎯 Mission Queue</span>
+        <span class="count">3 IN PROGRESS</span>
+      </div>
+      <div class="mq-list">
+        <div class="mq-item priority-high">
+          <div class="mq-top"><span class="mq-tag high">HIGH</span><span class="mq-status active">ACTIVE</span></div>
+          <div class="mq-name">박선우 병장 — 의무후송</div>
+          <div class="mq-desc">지혈대 긴급배송</div>
+        </div>
+        <div class="mq-item priority-mid">
+          <div class="mq-top"><span class="mq-tag mid">MID</span><span class="mq-status active">ACTIVE</span></div>
+          <div class="mq-name">WP-2 정찰</div>
+          <div class="mq-desc">접근로 확인</div>
+        </div>
+        <div class="mq-item priority-low">
+          <div class="mq-top"><span class="mq-tag low">LOW</span><span class="mq-status queued">QUEUED</span></div>
+          <div class="mq-name">보급물자 이동</div>
+          <div class="mq-desc">후방 재배치</div>
+        </div>
+      </div>
+      <div class="mq-done-divider">완료</div>
+      <div class="mq-done"><span>✓ 김도현 상병 — 관측임무</span><b>14:02</b></div>
+
+      <div class="voice">
+        <div class="panel-title"><span>Voice Command</span><span>AI · HAIKU</span></div>
+        <div class="voice-log">
+          <div class="msg system">SYSTEM · READY<br>UGV-1 선택됨. 명령을 말하거나 입력하세요.</div>
+          <div class="msg op">전진 3초</div>
+          <div class="msg exec">EXEC · UGV-1<br>전진 3초 → throttle 1600, 3.0s 후 자동 정지. 전송됨 ✓</div>
+          <div class="msg op">드론 이륙 대기</div>
+          <div class="msg system">AIR-1<br>MANUAL 모드 · 캘리브레이션 진행 중. 이륙 보류.</div>
+        </div>
+        <div class="voice-input">
+          <input placeholder='"전진 5초", "좌회전", "복귀"...' />
+          <div class="mic">🎤</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map">
+      <div class="map-bg"></div>
+      <div class="map-title">Tactical Map</div>
+      <div class="map-grid">GRID · 40M</div>
+      <div class="wp air" style="top:34%; left:58%;">AIR-1<div class="pt"></div></div>
+      <div class="wp wp2" style="top:44%; left:36%;">WP-2<div class="pt"></div></div>
+      <div class="wp ugv" style="top:68%; left:14%;">UGV-1<div class="pt"></div></div>
+      <div class="wp home" style="top:82%; left:22%;">HOME<div class="pt"></div></div>
+    </div>
+
+    <div class="ops-summary">
+      <div class="panel-title" style="padding:0 0 8px; border-bottom:1px solid var(--border); margin-bottom:6px;"><span>자산 운용 현황</span></div>
+      <div class="ops-row">
+        <div class="ops-name">UGV-1 <span class="tag">MULE-UGV</span></div>
+        <div class="ops-fields"><span>MODE <b>MANUAL</b></span><span>LINK <b class="ok">4G 92%</b></span><span>BATT <b>—V</b></span></div>
+      </div>
+      <div class="ops-row">
+        <div class="ops-name">AIR-1 <span class="tag">T2-CRUZA</span></div>
+        <div class="ops-fields"><span>MODE <b>MANUAL</b></span><span>CAL <b class="warn">진행중</b></span><span>BATT <b>16.4V</b></span></div>
+      </div>
+      <div class="ops-row">
+        <div class="ops-name">AIR-2 <span class="tag">CCA-ISR</span></div>
+        <div class="ops-fields"><span>STANDBY</span><span>SIM <b class="ok">100%</b></span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

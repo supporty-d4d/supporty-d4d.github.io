@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUPPORTY — 6분이 3초가 됩니다</title>
+<meta name="description" content="하이브리드 통신 기반 1인 다중 무인체계 통제 시스템. Contested Logistics-as-a-Service.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0D11;
+    --bg-raise: #10141A;
+    --panel: #12161C;
+    --border: #232A33;
+    --border-dim: #1A2028;
+    --text: #E7ECF0;
+    --text-dim: #8C98A6;
+    --text-mute: #55616E;
+    --blue: #4E9BFF;
+    --red: #FA2256;
+    --green: #34D399;
+    --amber: #F5A623;
+    --font: 'IBM Plex Sans KR', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.6; }
+  ::selection{ background:var(--blue); color:#fff; }
+
+  .mono{ font-family:var(--mono); }
+  a{ color:var(--blue); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  img, video{ max-width:100%; display:block; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 24px; }
+
+  /* ------- top telemetry strip ------- */
+  .telemetry{
+    border-bottom:1px solid var(--border-dim);
+    font-family:var(--mono); font-size:11px; color:var(--text-mute);
+    overflow:hidden; white-space:nowrap; padding:8px 0;
+    letter-spacing:0.5px;
+  }
+  .telemetry .inner{ display:inline-block; animation:scroll 40s linear infinite; }
+  @keyframes scroll{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .telemetry b{ color:var(--green); font-weight:500; }
+  .telemetry i{ color:var(--red); font-style:normal; }
+  @media (prefers-reduced-motion: reduce){ .telemetry .inner{ animation:none; } }
+
+  /* ------- nav ------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,13,17,0.92); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-dim);
+  }
+  .nav-in{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:1080px; margin:0 auto; }
+  .logo{ font-weight:700; font-size:17px; letter-spacing:2px; color:var(--text); }
+  .logo b{ color:var(--blue); }
+  .nav-links{ display:flex; gap:24px; font-size:13px; }
+  .nav-links a{ color:var(--text-dim); }
+  .nav-links a:hover{ color:var(--text); text-decoration:none; }
+  .nav-cta{
+    font-family:var(--mono); font-size:12px; font-weight:600;
+    background:var(--blue); color:#fff; padding:8px 16px; border-radius:5px;
+  }
+  .nav-cta:hover{ text-decoration:none; opacity:0.9; }
+  @media (max-width:720px){ .nav-links{ display:none; } }
+
+  /* ------- hero ------- */
+  .hero{ padding:110px 0 80px; position:relative; overflow:hidden; }
+  .hero::before{
+    content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 70% 20%, rgba(78,155,255,0.07), transparent),
+      linear-gradient(rgba(78,155,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(78,155,255,0.025) 1px, transparent 1px);
+    background-size: 100% 100%, 44px 44px, 44px 44px;
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; color:var(--red);
+    letter-spacing:2px; margin-bottom:22px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:''; width:28px; height:1px; background:var(--red); }
+  .hero h1{
+    font-size:clamp(40px, 7vw, 76px); font-weight:700; line-height:1.12;
+    letter-spacing:-1.5px; margin-bottom:28px;
+  }
+  .hero h1 .t-red{ color:var(--red); }
+  .hero h1 .t-blue{ color:var(--blue); }
+  .hero p.lede{
+    font-size:17px; color:var(--text-dim); max-width:620px; margin-bottom:40px;
+  }
+  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:13px; font-weight:600;
+    padding:13px 24px; border-radius:6px; border:1px solid var(--border);
+    color:var(--text); transition:all .15s;
+  }
+  .btn:hover{ text-decoration:none; border-color:var(--blue); color:var(--blue); }
+  .btn.primary{ background:var(--blue); border-color:var(--blue); color:#fff; }
+  .btn.primary:hover{ opacity:0.9; color:#fff; }
+
+  /* the 6→3 signature */
+  .sig-counter{
+    margin-top:70px; padding:28px 0; border-top:1px solid var(--border-dim);
+    display:flex; align-items:baseline; gap:28px; flex-wrap:wrap;
+    font-family:var(--mono);
+  }
+  .sig-counter .num{ font-size:clamp(48px,8vw,84px); font-weight:700; line-height:1; }
+  .sig-counter .num.was{ color:var(--text-mute); text-decoration:line-through; text-decoration-thickness:3px; text-decoration-color:var(--red); }
+  .sig-counter .num.now{ color:var(--green); }
+  .sig-counter .arrow{ font-size:32px; color:var(--text-mute); }
+  .sig-counter .cap{ font-size:12px; color:var(--text-dim); max-width:280px; font-family:var(--font); }
+
+  /* ------- section scaffold ------- */
+  section{ padding:88px 0; border-top:1px solid var(--border-dim); }
+  .sec-label{
+    font-family:var(--mono); font-size:12px; color:var(--blue); letter-spacing:2px;
+    margin-bottom:14px;
+  }
+  h2{ font-size:clamp(26px,4vw,38px); font-weight:700; letter-spacing:-0.5px; margin-bottom:18px; line-height:1.25; }
+  .sec-intro{ color:var(--text-dim); max-width:640px; font-size:15.5px; }
+
+  /* ------- problem / testimony ------- */
+  .testimony{
+    margin-top:48px; padding:36px 40px; background:var(--panel);
+    border:1px solid var(--border); border-left:3px solid var(--red); border-radius:8px;
+  }
+  .testimony blockquote{
+    font-size:clamp(19px,2.6vw,25px); font-weight:600; line-height:1.5; margin-bottom:16px;
+  }
+  .testimony cite{ font-family:var(--mono); font-size:12px; color:var(--text-mute); font-style:normal; }
+
+  /* ------- solution grid ------- */
+  .sol-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-top:48px; }
+  .sol-card{
+    background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:28px 26px;
+  }
+  .sol-card .tag{
+    font-family:var(--mono); font-size:10px; letter-spacing:1.5px; color:var(--blue);
+    border:1px solid rgba(78,155,255,0.3); border-radius:3px; padding:3px 8px;
+    display:inline-block; margin-bottom:16px;
+  }
+  .sol-card h3{ font-size:17px; font-weight:700; margin-bottom:10px; }
+  .sol-card p{ font-size:13.5px; color:var(--text-dim); }
+  .sol-card .log{
+    margin-top:16px; padding:10px 12px; background:var(--bg);
+    border-radius:5px; font-family:var(--mono); font-size:11px;
+    color:var(--green); border:1px solid var(--border-dim); line-height:1.7;
+  }
+  .sol-card .log .op{ color:var(--text); }
+
+  /* ------- comms band ------- */
+  .comms{
+    margin-top:56px; padding:36px 40px; border-radius:8px;
+    background:linear-gradient(120deg, rgba(78,155,255,0.08), rgba(250,34,86,0.05));
+    border:1px solid var(--border);
+    display:grid; grid-template-columns:1fr auto; gap:32px; align-items:center;
+  }
+  .comms h3{ font-size:20px; font-weight:700; margin-bottom:10px; }
+  .comms p{ font-size:14px; color:var(--text-dim); max-width:560px; }
+  .comms .badges{ display:flex; flex-direction:column; gap:8px; font-family:var(--mono); font-size:12px; }
+  .comms .badge{ padding:8px 14px; border:1px solid var(--border); border-radius:5px; background:var(--bg-raise); white-space:nowrap; }
+  .comms .badge b{ color:var(--green); font-weight:600; }
+  @media (max-width:720px){ .comms{ grid-template-columns:1fr; } }
+
+  /* ------- video blocks ------- */
+  .video-grid{ display:grid; gap:40px; margin-top:52px; }
+  .video-item h3{ font-size:18px; font-weight:700; margin-bottom:6px; }
+  .video-item .meta{ font-family:var(--mono); font-size:11px; color:var(--text-mute); margin-bottom:14px; letter-spacing:1px; }
+  .video-frame{
+    position:relative; border-radius:8px; overflow:hidden;
+    border:1px solid var(--border); background:var(--panel); aspect-ratio:16/9;
+  }
+  .video-frame video{ width:100%; height:100%; object-fit:cover; }
+  .video-frame .ph{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:10px;
+    font-family:var(--mono); font-size:12px; color:var(--text-mute); text-align:center; padding:20px;
+  }
+  .video-frame .ph b{ color:var(--text-dim); font-weight:500; }
+  .video-2col{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media (max-width:720px){ .video-2col{ grid-template-columns:1fr; } }
+
+  /* ------- hardware ------- */
+  .hw-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:48px; }
+  @media (max-width:720px){ .hw-grid{ grid-template-columns:1fr; } }
+  .hw-card{ background:var(--panel); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  .hw-card .imgbox{ aspect-ratio:4/3; background:var(--bg-raise); position:relative; }
+  .hw-card .imgbox img{ width:100%; height:100%; object-fit:cover; }
+  .hw-card .imgbox .ph{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:12px; color:var(--text-mute); text-align:center; padding:20px;
+  }
+  .hw-card .body{ padding:20px 22px; }
+  .hw-card .body .id{ font-family:var(--mono); font-size:11px; color:var(--blue); letter-spacing:1.5px; margin-bottom:6px; }
+  .hw-card .body h3{ font-size:16px; font-weight:700; margin-bottom:6px; }
+  .hw-card .body p{ font-size:13px; color:var(--text-dim); }
+
+  /* ------- demo console CTA ------- */
+  .console-cta{
+    margin-top:52px; border:1px solid var(--border); border-radius:8px;
+    background:var(--panel); padding:40px; text-align:center;
+  }
+  .console-cta h3{ font-size:22px; font-weight:700; margin-bottom:10px; }
+  .console-cta p{ color:var(--text-dim); font-size:14px; margin-bottom:24px; }
+
+  /* ------- team ------- */
+  .team-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:44px; }
+  @media (max-width:640px){ .team-grid{ grid-template-columns:1fr; } }
+  .member{
+    background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:26px;
+  }
+  .member .role{ font-family:var(--mono); font-size:10.5px; color:var(--red); letter-spacing:1.5px; margin-bottom:10px; }
+  .member h3{ font-size:17px; font-weight:700; margin-bottom:8px; }
+  .member p{ font-size:13px; color:var(--text-dim); }
+
+  /* ------- footer ------- */
+  footer{ border-top:1px solid var(--border-dim); padding:44px 0 60px; }
+  .foot-in{ display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap; }
+  .foot-in .logo{ margin-bottom:8px; }
+  footer p{ font-family:var(--mono); font-size:11px; color:var(--text-mute); }
+  .foot-links{ display:flex; gap:20px; font-size:13px; }
+</style>
+</head>
+<body>
+
+<div class="telemetry">
+  <div class="inner">
+    LINK <b>4G 92%</b> · GPS <b>14 SAT</b> · MISSION <i>박선우 병장 — 의무후송</i> ACTIVE · CMD LATENCY <b>0.47s</b> · ASSETS <b>2 LIVE</b> · SATCOM <b>STANDBY</b> · EXPORT JORDAN ✓ UAE ✓ · UKRAINE VALIDATION IN PREP ·&nbsp;
+    LINK <b>4G 92%</b> · GPS <b>14 SAT</b> · MISSION <i>박선우 병장 — 의무후송</i> ACTIVE · CMD LATENCY <b>0.47s</b> · ASSETS <b>2 LIVE</b> · SATCOM <b>STANDBY</b> · EXPORT JORDAN ✓ UAE ✓ · UKRAINE VALIDATION IN PREP ·&nbsp;
+  </div>
+</div>
+
+<nav>
+  <div class="nav-in">
+    <div class="logo">SUPPO<b>RTY</b></div>
+    <div class="nav-links">
+      <a href="#problem">문제</a>
+      <a href="#solution">솔루션</a>
+      <a href="#demo">시연 영상</a>
+      <a href="#hardware">하드웨어</a>
+      <a href="#team">팀</a>
+    </div>
+    <a class="nav-cta" href="./demo.html">LIVE CONSOLE →</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">CONTESTED LOGISTICS-AS-A-SERVICE · D4D SEOUL 2026</div>
+    <h1>전장의 <span class="t-red">6분</span>을,<br><span class="t-blue">3초</span>로 돌려드립니다.</h1>
+    <p class="lede">
+      SUPPORTY는 하이브리드 통신(4G/5G ↔ Starlink) 위에서 한 명의 오퍼레이터가
+      지상·공중의 무인체계를 동시에 지휘하는 작전지속지원 통제 시스템입니다.
+      보급이 늦어 잃는 것은 시간이 아니라, 사람입니다.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn primary" href="./demo.html">오퍼레이터 콘솔 데모 →</a>
+      <a class="btn" href="#demo">시연 영상 보기</a>
+      <a class="btn" href="https://github.com/YOUR_REPO" id="gh-link">GitHub</a>
+    </div>
+
+    <div class="sig-counter">
+      <span class="num was">6:00</span>
+      <span class="arrow">→</span>
+      <span class="num now">0:03</span>
+      <span class="cap">우크라이나 현지 증언 속 "잃어버린 6분" — 자연어 지휘와 자동 우선순위가 명령 전달 시간을 3초로 줄입니다.</span>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="sec-label">01 · PROBLEM</div>
+    <h2>자산 1대에 조종사 1명.<br>이 구조는 사람을 지키지 못합니다.</h2>
+    <p class="sec-intro">
+      현행 무인체계 운용은 장비가 늘수록 인력도 똑같이 늘어야 하는 선형 구조입니다.
+      병력이 줄어드는 한국과 APAC에서 이 구조는 지속 불가능하며 — 그 대가는 전장에서
+      가장 절박한 순간에 청구됩니다.
+    </p>
+    <div class="testimony">
+      <blockquote>"6분만 빨랐어도, 다리를 지킬 수 있었다."</blockquote>
+      <cite>— 우크라이나 현지 인터뷰, 부상 병사의 증언 (2026)</cite>
+    </div>
+  </div>
+</section>
+
+<section id="solution">
+  <div class="wrap">
+    <div class="sec-label">02 · SOLUTION</div>
+    <h2>한 사람이, 한 화면에서,<br>여러 자산을 병렬로 지휘합니다.</h2>
+
+    <div class="sol-grid">
+      <div class="sol-card">
+        <span class="tag">SOFTWARE 01</span>
+        <h3>자연어 지휘</h3>
+        <p>조종 스틱이 아니라 목적을 말합니다. AI가 문장을 실제 제어 시퀀스로 즉시 번역합니다.</p>
+        <div class="log"><span class="op">OPERATOR · "전진 5초"</span><br>EXEC → throttle 1600 · 5.0s 자동정지 · 전송됨 ✓</div>
+      </div>
+      <div class="sol-card">
+        <span class="tag">SOFTWARE 02</span>
+        <h3>동시 병렬 제어</h3>
+        <p>UGV가 이동하는 동안, 화면 전환 없이 항공 자산에 별도 명령을 큐잉합니다. 1인 다중 통제의 실제 구현입니다.</p>
+        <div class="log">UGV-1 · MOVING → WP-2<br>AIR-1 · <span class="op">"이륙 준비"</span> QUEUED ✓</div>
+      </div>
+      <div class="sol-card">
+        <span class="tag">SOFTWARE 03</span>
+        <h3>안전 우선 판단</h3>
+        <p>오퍼레이터의 명령보다 안전 조건을 먼저 검증합니다. 서두르다 놓치는 게 아니라, 정확한 판단으로 지킵니다.</p>
+        <div class="log">AIR-1 · CAL 미완료<br>→ 이륙 보류 · 사유 로그 기록됨</div>
+      </div>
+    </div>
+
+    <div class="comms">
+      <div>
+        <h3>하이브리드 통신 모듈 — 실제 수출 이력의 하드웨어</h3>
+        <p>
+          4G/5G 셀룰러와 Starlink 위성망을 자동 전환하는 자체 통신 모듈 위에서,
+          공중 드론의 영상과 지상 차량의 전면 카메라 영상을 거리 제한 없이 실시간
+          동시 수신합니다. 시뮬레이션이 아니라, 수출·실증 이력이 있는 하드웨어입니다.
+        </p>
+      </div>
+      <div class="badges">
+        <div class="badge">요르단 수출 <b>✓</b></div>
+        <div class="badge">UAE 수출 <b>✓</b></div>
+        <div class="badge">우크라이나 실증 <b>준비 중</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <div class="sec-label">03 · DEMONSTRATION</div>
+    <h2>연출이 아닙니다.<br>실제로 동작하는 화면입니다.</h2>
+    <p class="sec-intro">아래 영상 속 카메라 스트림과 GPS 좌표는 실물 하드웨어에서 실시간 전송된 데이터입니다.</p>
+
+    <div class="video-grid">
+      <div class="video-item">
+        <h3>라이브 데모 — 지상·공중 동시 수신</h3>
+        <div class="meta">REAL-TIME · DUAL STREAM · HYBRID LINK</div>
+        <div class="video-frame">
+          <video controls preload="metadata" poster="./assets/poster_live.jpg">
+            <source src="./assets/demo_live.mp4" type="video/mp4">
+          </video>
+          <div class="ph" style="z-index:-1"><b>assets/demo_live.mp4</b>파일을 이 이름으로 넣으면 자동 표시됩니다</div>
+        </div>
+      </div>
+
+      <div class="video-item">
+        <h3>OPERATION LIFELINE — 작전 트레일러</h3>
+        <div class="meta">28s · SCENARIO FILM</div>
+        <div class="video-frame">
+          <video controls preload="metadata" poster="./assets/poster_trailer.jpg">
+            <source src="./assets/trailer.mp4" type="video/mp4">
+          </video>
+          <div class="ph" style="z-index:-1"><b>assets/trailer.mp4</b></div>
+        </div>
+      </div>
+
+      <div class="video-2col">
+        <div class="video-item">
+          <h3>지상 — 보급 주행</h3>
+          <div class="meta">UGV · RESUPPLY RUN</div>
+          <div class="video-frame">
+            <video controls preload="metadata"><source src="./assets/op_ugv.mp4" type="video/mp4"></video>
+            <div class="ph" style="z-index:-1"><b>assets/op_ugv.mp4</b></div>
+          </div>
+        </div>
+        <div class="video-item">
+          <h3>공중 — 수직 이륙</h3>
+          <div class="meta">VTOL · LAUNCH</div>
+          <div class="video-frame">
+            <video controls preload="metadata"><source src="./assets/op_vtol.mp4" type="video/mp4"></video>
+            <div class="ph" style="z-index:-1"><b>assets/op_vtol.mp4</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hardware">
+  <div class="wrap">
+    <div class="sec-label">04 · HARDWARE</div>
+    <h2>오늘 시연한 실물 자산</h2>
+
+    <div class="hw-grid">
+      <div class="hw-card">
+        <div class="imgbox">
+          <img src="./assets/hw_ugv.jpg" alt="지상 무인차량" onerror="this.style.display='none'">
+          <div class="ph" style="z-index:-1">assets/hw_ugv.jpg</div>
+        </div>
+        <div class="body">
+          <div class="id">UGV-1 · GROUND</div>
+          <h3>지상 보급 차량</h3>
+          <p>4륜 오프로드 크롤러 · 전면 카메라 · G29 아날로그 정밀 조종 · 하이브리드 통신 모듈 탑재</p>
+        </div>
+      </div>
+      <div class="hw-card">
+        <div class="imgbox">
+          <img src="./assets/hw_vtol.jpg" alt="수직이착륙 무인기" onerror="this.style.display='none'">
+          <div class="ph" style="z-index:-1">assets/hw_vtol.jpg</div>
+        </div>
+        <div class="body">
+          <div class="id">AIR-1 · VTOL</div>
+          <h3>플라잉윙 수직이착륙기</h3>
+          <p>무미익 고정익 + 트윈 붐 리프트 로터 · 노즈 카메라 · 고도 19M 실시간 영상 전송</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="console-cta">
+      <h3>오퍼레이터 콘솔을 직접 열어보세요</h3>
+      <p>Mission Queue 자동 우선순위, 듀얼 카메라 패널, 자연어 지휘 로그 — 심사 중 언제든 접속 가능합니다.</p>
+      <a class="btn primary" href="./demo.html">LIVE CONSOLE 열기 →</a>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <div class="sec-label">05 · TEAM SUPPORTY</div>
+    <h2>현장을 아는 사람이 만듭니다</h2>
+
+    <div class="team-grid">
+      <div class="member">
+        <div class="role">LEAD · HARDWARE & OPERATIONS</div>
+        <h3>김현기</h3>
+        <p>특전사 9년 중사 전역. 무인항공기·무인차량 PMC 스타트업 운영.
+        통신 모듈 요르단·UAE 수출을 이끌었고, 현재 우크라이나 실증을 준비 중입니다.</p>
+      </div>
+      <div class="member">
+        <div class="role">PLANNING · PRODUCT & SOFTWARE</div>
+        <h3>장병헌</h3>
+        <p>해병대 병 2년 복무(해안 경계·KMEP 통역). SSAFY 14기 수료, SKALA 4기.
+        오퍼레이터 콘솔 기획·시나리오 설계와 프론트엔드를 담당합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>
+      <div class="logo">SUPPO<b>RTY</b></div>
+      <p>D4D | Deploy for Defense Hackathon APAC — Seoul 2026<br>Track 1 · Autonomy, Unmanned Systems & Counter-UAS</p>
+    </div>
+    <div class="foot-links">
+      <a href="https://github.com/YOUR_REPO">GitHub</a>
+      <a href="./demo.html">Console Demo</a>
+      <a href="#demo">Videos</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
