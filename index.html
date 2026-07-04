@@ -147,6 +147,55 @@
   h2{ font-size:clamp(26px,4vw,38px); font-weight:700; letter-spacing:-0.5px; margin-bottom:18px; line-height:1.25; }
   .sec-intro{ color:var(--text-dim); max-width:640px; font-size:15.5px; }
 
+  /* ------- origin story ------- */
+  #origin{
+    background:#070A0D; padding:110px 0 100px;
+  }
+  #origin .sec-label{ color:var(--red); }
+  #origin .origin-lede{
+    color:var(--text-dim); max-width:660px; font-size:15.5px; margin-bottom:16px;
+  }
+  #origin .origin-lede b{ color:var(--text); font-weight:600; }
+  .interview-label{
+    display:inline-flex; align-items:center; gap:8px; margin:34px 0 0;
+    font-family:var(--mono); font-size:11px; letter-spacing:2px; color:var(--text-mute);
+    border:1px solid var(--border); border-radius:999px; padding:6px 14px;
+  }
+  .interview-label::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--red); }
+
+  .tl{ margin-top:44px; position:relative; padding-left:28px; max-width:720px; }
+  .tl::before{
+    content:''; position:absolute; left:6px; top:6px; bottom:6px; width:2px;
+    background:linear-gradient(var(--red), rgba(250,34,86,0.15));
+  }
+  .tl-card{
+    position:relative; background:var(--panel); border:1px solid var(--border);
+    border-radius:8px; padding:22px 24px; margin-bottom:18px;
+    opacity:0; transform:translateY(14px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .tl-card.vis{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){
+    .tl-card{ opacity:1; transform:none; transition:none; }
+  }
+  .tl-card::before{
+    content:''; position:absolute; left:-28px; top:26px; width:14px; height:2px; background:var(--red); opacity:.5;
+  }
+  .tl-card .t{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:2px; color:var(--red); margin-bottom:8px;
+  }
+  .tl-card p{ font-size:15px; line-height:1.75; color:var(--text); }
+
+  .origin-close{ margin-top:56px; max-width:760px; }
+  .origin-close h3{
+    font-size:clamp(20px,2.8vw,27px); font-weight:700; line-height:1.6;
+  }
+  .origin-close h3 b{ color:var(--blue); }
+  .origin-close cite{
+    display:block; margin-top:16px; font-family:var(--mono); font-size:12px;
+    color:var(--text-mute); font-style:normal;
+  }
+
   /* ------- problem / testimony ------- */
   .testimony{
     margin-top:48px; padding:36px 40px; background:var(--panel);
@@ -348,6 +397,7 @@
   <div class="nav-in">
     <div class="logo">SUPPO<b>RTY</b></div>
     <div class="nav-links">
+      <a href="#origin">스토리</a>
       <a href="#problem">문제</a>
       <a href="#solution">솔루션</a>
       <a href="#demo">시연 영상</a>
@@ -396,6 +446,51 @@
     <a class="btn primary" href="./assets/supporty_proposal.pdf" download="SUPPORTY_기획서.pdf">기획서 PDF 다운로드 ↓</a>
   </div>
 </div>
+
+<section id="origin">
+  <div class="wrap">
+    <div class="sec-label">00 · ORIGIN — 실화 기반</div>
+    <h2>한 통의 텔레그램 통화에서<br>시작됐습니다.</h2>
+
+    <p class="origin-lede" style="margin-top:26px">
+      우리는 4G/5G 셀룰러와 Starlink 기반 통신 모듈을 만드는 팀입니다. 항공이든 지상이든,
+      장비 종류와 거리 제한 없이 어디서든 제어할 수 있다는 것이 우리의 강점입니다.
+      요르단과 UAE에 샘플을 수출했고, 지금은 우크라이나 실증을 준비하고 있습니다.
+    </p>
+    <p class="origin-lede">
+      이번 프로젝트는 우크라이나 군인·의용군들을 <b>직접 인터뷰하며 얻은 인사이트</b>에서 출발했습니다.
+      전투에만 집중된 기존 PMC를 <b>'작전지속지원' 중심의 서비스로 다시 설계하는 것</b> —
+      그것이 우리가 1인 다중 무인통제, 산악·도심 혼재지형 자율 운용이라는 과제에 답하는 방식입니다.
+    </p>
+
+    <div class="interview-label">REAL INTERVIEW · 다리를 잃은 한 병사의 증언</div>
+
+    <div class="tl">
+      <div class="tl-card">
+        <div class="t">01 · 고립</div>
+        <p>"치열한 상황이었습니다. 아군 피해가 커질 것 같아서, 아무도 저를 구하러 오지 못했습니다."</p>
+      </div>
+      <div class="tl-card">
+        <div class="t">02 · 출혈</div>
+        <p>"다리에서는 계속 피가 났습니다. 너무 살고 싶었습니다. PMC가 떠올랐지만 — 연락할 수단도, 지원이 가능한지 여부조차 확인할 수 없었습니다."</p>
+      </div>
+      <div class="tl-card">
+        <div class="t">03 · 간절함</div>
+        <p>"돈이 얼마가 들든 살고 싶었습니다."</p>
+      </div>
+      <div class="tl-card">
+        <div class="t">04 · 결과</div>
+        <p>"결국 다리를 잃었습니다. 하지만 적절한 조치가 제때 있었다면, 다리까지 잃지는 않았을 겁니다."</p>
+      </div>
+    </div>
+
+    <div class="origin-close">
+      <h3>연락할 수단이 있었다면. 지원이 가능한지 알 수만 있었다면.<br>
+      SUPPORTY는 그 <b>'만약'</b>을 없애기 위해 시작됐습니다.</h3>
+      <cite>— 2026년, 우크라이나 현지 의용군 텔레그램 인터뷰 중</cite>
+    </div>
+  </div>
+</section>
 
 <section id="problem">
   <div class="wrap">
@@ -734,6 +829,25 @@ document.querySelectorAll('[data-spin]').forEach(function(box){
     show(idx + 1);
   }, 2200);
 });
+
+// 증언 타임라인 — 스크롤 진입 시 순차 페이드인 (reduced-motion은 CSS에서 즉시 표시)
+(function(){
+  var cards = document.querySelectorAll('.tl-card');
+  if (!('IntersectionObserver' in window)) {
+    cards.forEach(function(c){ c.classList.add('vis'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        var el = e.target;
+        setTimeout(function(){ el.classList.add('vis'); }, el.dataset.delay || 0);
+        io.unobserve(el);
+      }
+    });
+  }, {threshold: 0.25});
+  cards.forEach(function(c, i){ c.dataset.delay = i * 150; io.observe(c); });
+})();
 </script>
 
 </body>
