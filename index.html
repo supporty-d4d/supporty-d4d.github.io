@@ -116,6 +116,28 @@
   .sig-counter .arrow{ font-size:32px; color:var(--text-mute); }
   .sig-counter .cap{ font-size:12px; color:var(--text-dim); max-width:280px; font-family:var(--font); }
 
+  /* ------- proposal PDF band ------- */
+  .pdfband{
+    border-top:1px solid var(--border-dim); border-bottom:1px solid var(--border-dim);
+    background:linear-gradient(90deg, rgba(78,155,255,0.08), rgba(250,34,86,0.04));
+    padding:30px 0;
+  }
+  .pdfband .in{
+    max-width:1080px; margin:0 auto; padding:0 24px;
+    display:flex; align-items:center; gap:30px; flex-wrap:wrap;
+  }
+  .pdfband img.qr{
+    width:120px; height:120px; border-radius:10px; border:1px solid var(--border);
+    background:#fff; padding:7px; flex-shrink:0;
+  }
+  .pdfband .txt{ flex:1; min-width:220px; }
+  .pdfband .txt .k{
+    font-family:var(--mono); font-size:11px; letter-spacing:2px; color:var(--red); margin-bottom:6px;
+  }
+  .pdfband .txt h3{ font-size:19px; font-weight:700; margin-bottom:6px; }
+  .pdfband .txt p{ font-size:13px; color:var(--text-dim); }
+  .pdfband .btn.primary{ flex-shrink:0; }
+
   /* ------- section scaffold ------- */
   section{ padding:88px 0; border-top:1px solid var(--border-dim); }
   .sec-label{
@@ -362,6 +384,18 @@
     </div>
   </div>
 </header>
+
+<div class="pdfband">
+  <div class="in">
+    <img class="qr" src="./assets/qr_proposal.png" alt="기획서 PDF 다운로드 QR 코드">
+    <div class="txt">
+      <div class="k">FOR JUDGES · 심사위원용</div>
+      <h3>기획서 PDF — 핸드폰으로 바로 받기</h3>
+      <p>카메라로 QR을 스캔하면 15페이지 기획서가 바로 열립니다. PC에서는 오른쪽 버튼으로 다운로드하세요.</p>
+    </div>
+    <a class="btn primary" href="./assets/supporty_proposal.pdf" download="SUPPORTY_기획서.pdf">기획서 PDF 다운로드 ↓</a>
+  </div>
+</div>
 
 <section id="problem">
   <div class="wrap">
