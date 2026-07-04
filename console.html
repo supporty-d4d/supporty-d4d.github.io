@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUPPORTY — Operator Console (Fallback)</title>
+<style>
+  :root{
+    --bg:#0A0D11; --bg-raise:#10141A; --panel:#12161C; --border:#232A33;
+    --text:#E7ECF0; --text-dim:#8C98A6; --text-mute:#55616E;
+    --blue:#4E9BFF; --green:#3DDC84; --red:#FA2256;
+    --mono:'JetBrains Mono','SF Mono',Consolas,monospace;
+    --font:'Pretendard',-apple-system,'Segoe UI','Malgun Gothic',sans-serif;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{ background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.6; }
+  a{ color:var(--blue); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  .wrap{ max-width:1200px; margin:0 auto; padding:0 24px; }
+
+  nav{ border-bottom:1px solid var(--border); padding:16px 0; }
+  .nav-in{ max-width:1200px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; }
+  .logo{ font-weight:800; letter-spacing:1px; font-size:17px; }
+  .logo b{ color:var(--blue); }
+
+  header{ padding:56px 0 8px; }
+  .sec-label{ font-family:var(--mono); font-size:11px; letter-spacing:2.5px; color:var(--blue); margin-bottom:14px; }
+  h1{ font-size:clamp(24px,3.4vw,36px); font-weight:800; line-height:1.35; }
+  .lede{ margin-top:14px; color:var(--text-dim); font-size:15px; max-width:680px; }
+
+  .ctas{ display:flex; gap:12px; margin:28px 0 40px; flex-wrap:wrap; }
+  .btn{
+    display:inline-block; padding:13px 22px; border-radius:6px; font-size:14px; font-weight:600;
+    border:1px solid var(--border); color:var(--text);
+  }
+  .btn:hover{ text-decoration:none; border-color:var(--blue); }
+  .btn.primary{ background:var(--blue); border-color:var(--blue); color:#fff; }
+
+  .status{
+    font-family:var(--mono); font-size:12px; color:var(--text-mute);
+    padding:10px 14px; background:var(--panel); border:1px solid var(--border); border-radius:6px;
+    display:inline-flex; gap:10px; align-items:center; margin-bottom:28px;
+  }
+  .status .dot{ width:8px; height:8px; border-radius:50%; background:var(--text-mute); }
+  .status.on .dot{ background:var(--green); }
+  .status.off .dot{ background:var(--red); }
+
+  .shot{ border:1px solid var(--border); border-radius:10px; overflow:hidden; background:var(--bg-raise); }
+  .shot img{ width:100%; display:block; }
+  .shot .cap{
+    padding:14px 18px; font-family:var(--mono); font-size:11.5px; color:var(--text-mute);
+    border-top:1px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+
+  footer{ padding:48px 0 64px; text-align:center; font-family:var(--mono); font-size:11px; color:var(--text-mute); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="logo" href="./index.html" style="color:inherit">SUPPO<b>RTY</b></a>
+    <a href="./index.html">← 메인으로</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="sec-label">OPERATOR CONSOLE · SKYFLEET C2</div>
+    <h1>라이브 오퍼레이터 콘솔</h1>
+    <p class="lede">
+      실서버 콘솔은 시연 기간 동안 운영됩니다. 접속이 안 될 경우(서버 점검·시연 종료 등)를 대비해
+      아래에 실제 운용 화면 캡처를 함께 제공합니다.
+    </p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="ctas">
+    <a class="btn primary" href="http://54.180.123.161:8300/console" target="_blank" rel="noopener">실서버 콘솔 접속 →</a>
+    <a class="btn" href="./demo.html">로컬 데모 콘솔(오프라인용)</a>
+  </div>
+
+  <div class="status" id="live-status"><span class="dot"></span><span id="live-msg">실서버 상태: 직접 접속해서 확인해주세요 (HTTPS 페이지에서 자동 확인 불가)</span></div>
+
+  <div class="shot">
+    <img src="./assets/console_capture.png" alt="SKYFLEET C2 오퍼레이터 콘솔 실제 운용 화면 — 듀얼 카메라 피드, 전술 지도, Mission Queue, Asset Roster, JARVIS 음성 지휘">
+    <div class="cap">
+      <span>SKYFLEET C2 — OPERATOR CONSOLE · 실제 운용 화면 캡처</span>
+      <span>UGV-1 LIVE · MISSION QUEUE 대기 4건 · ASSETS 5 · 2026.07.05</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  SUPPORTY · D4D | Deploy for Defense Hackathon APAC — Seoul 2026
+</footer>
+
+</body>
+</html>
