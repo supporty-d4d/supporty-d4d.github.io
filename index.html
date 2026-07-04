@@ -197,6 +197,30 @@
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     font-family:var(--mono); font-size:12px; color:var(--text-mute); text-align:center; padding:20px;
   }
+  /* ------- hardware 360 spin viewer ------- */
+  .hw-card .spinbox{ cursor:grab; user-select:none; -webkit-user-select:none; touch-action:pan-y; overflow:hidden;
+    background:radial-gradient(ellipse 70% 55% at 50% 74%, rgba(74,124,255,.13), transparent 70%), var(--bg-raise); }
+  .hw-card .spinbox:active{ cursor:grabbing; }
+  .hw-card .spinbox img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+    padding:24px 24px 44px; opacity:0; pointer-events:none;
+    filter:drop-shadow(0 20px 24px rgba(0,0,0,.5));
+  }
+  .hw-card .spinbox img.on{ opacity:1; }
+  .hw-card .spinbox .floor{
+    position:absolute; left:50%; bottom:26px; transform:translateX(-50%);
+    width:60%; height:18px; border-radius:50%;
+    background:radial-gradient(ellipse, rgba(0,0,0,.55), transparent 70%);
+  }
+  .hw-card .spinbox .badge360{
+    position:absolute; top:12px; right:12px; z-index:2;
+    font-family:var(--mono); font-size:10px; letter-spacing:1.5px; color:var(--blue);
+    border:1px solid var(--border); border-radius:999px; padding:4px 10px; background:rgba(10,13,17,.55);
+  }
+  .hw-card .spinbox .hint{
+    position:absolute; left:50%; bottom:11px; transform:translateX(-50%); z-index:2;
+    font-family:var(--mono); font-size:10.5px; letter-spacing:1.5px; color:var(--text-mute); white-space:nowrap;
+  }
   .hw-card .body{ padding:20px 22px; }
   .hw-card .body .id{ font-family:var(--mono); font-size:11px; color:var(--blue); letter-spacing:1.5px; margin-bottom:6px; }
   .hw-card .body h3{ font-size:16px; font-weight:700; margin-bottom:6px; }
@@ -393,9 +417,14 @@
 
     <div class="hw-grid">
       <div class="hw-card">
-        <div class="imgbox">
-          <img src="./assets/hw_ugv.jpg" alt="지상 무인차량" onerror="this.style.display='none'">
-          <div class="ph" style="z-index:-1">assets/hw_ugv.jpg</div>
+        <div class="imgbox spinbox" data-spin>
+          <img src="./assets/ugv_0.webp" class="on" alt="지상 무인차량 정면" draggable="false">
+          <img src="./assets/ugv_1.webp" alt="지상 무인차량 전측면" draggable="false">
+          <img src="./assets/ugv_2.webp" alt="지상 무인차량 측면" draggable="false">
+          <img src="./assets/ugv_3.webp" alt="지상 무인차량 후면" draggable="false">
+          <div class="floor"></div>
+          <div class="badge360">360° VIEW</div>
+          <div class="hint">◀ 드래그해서 회전 ▶</div>
         </div>
         <div class="body">
           <div class="id">UGV-1 · GROUND</div>
@@ -404,9 +433,12 @@
         </div>
       </div>
       <div class="hw-card">
-        <div class="imgbox">
-          <img src="./assets/hw_vtol.jpg" alt="수직이착륙 무인기" onerror="this.style.display='none'">
-          <div class="ph" style="z-index:-1">assets/hw_vtol.jpg</div>
+        <div class="imgbox spinbox" data-spin>
+          <img src="./assets/vtol_0.webp" class="on" alt="수직이착륙 무인기 전측면" draggable="false">
+          <img src="./assets/vtol_1.webp" alt="수직이착륙 무인기 후측면" draggable="false">
+          <div class="floor"></div>
+          <div class="badge360">360° VIEW</div>
+          <div class="hint">◀ 드래그해서 회전 ▶</div>
         </div>
         <div class="body">
           <div class="id">AIR-1 · VTOL</div>
@@ -459,6 +491,34 @@
     </div>
   </div>
 </footer>
+
+<script>
+document.querySelectorAll('[data-spin]').forEach(function(box){
+  var frames = Array.prototype.slice.call(box.querySelectorAll('img'));
+  if (frames.length < 2) return;
+  var idx = 0, dragging = false, startX = 0, startIdx = 0, touched = false;
+  var STEP = 60; // 드래그 픽셀당 프레임 전환 간격
+
+  function show(i){
+    idx = ((i % frames.length) + frames.length) % frames.length;
+    frames.forEach(function(f, n){ f.classList.toggle('on', n === idx); });
+  }
+  function clientX(e){ return (e.touches ? e.touches[0] : e).clientX; }
+
+  box.addEventListener('mousedown', function(e){ dragging = true; touched = true; startX = clientX(e); startIdx = idx; e.preventDefault(); });
+  box.addEventListener('touchstart', function(e){ dragging = true; touched = true; startX = clientX(e); startIdx = idx; }, {passive:true});
+  window.addEventListener('mousemove', function(e){ if(dragging) show(startIdx + Math.round((clientX(e) - startX) / STEP)); });
+  box.addEventListener('touchmove', function(e){ if(dragging) show(startIdx + Math.round((clientX(e) - startX) / STEP)); }, {passive:true});
+  window.addEventListener('mouseup', function(){ dragging = false; });
+  box.addEventListener('touchend', function(){ dragging = false; });
+
+  // 사용자가 만지기 전까지 천천히 자동 회전
+  var auto = setInterval(function(){
+    if (touched) { clearInterval(auto); return; }
+    show(idx + 1);
+  }, 2200);
+});
+</script>
 
 </body>
 </html>
