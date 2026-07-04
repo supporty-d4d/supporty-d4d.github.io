@@ -22,8 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: 8efe17f3d7d1cbdfaed092598c1758632e03b67e
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
