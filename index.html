@@ -169,6 +169,37 @@
   .comms .badge b{ color:var(--green); font-weight:600; }
   @media (max-width:720px){ .comms{ grid-template-columns:1fr; } }
 
+  /* ------- pipeline strip (REQUEST→TRIAGE→DEPLOY) ------- */
+  .pipeline{ display:flex; align-items:stretch; gap:10px; margin-top:40px; flex-wrap:wrap; }
+  .pipeline .step{
+    flex:1; min-width:200px; background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:18px 20px;
+  }
+  .pipeline .step .no{ font-family:var(--mono); font-size:10.5px; color:var(--blue); letter-spacing:1.5px; margin-bottom:8px; }
+  .pipeline .step p{ font-size:13px; color:var(--text-dim); }
+  .pipeline .arr{ align-self:center; color:var(--blue); font-size:18px; }
+  .pipeline-note{
+    margin-top:14px; font-family:var(--mono); font-size:11.5px; color:var(--text-mute); text-align:center;
+  }
+
+  /* ------- KPI stats band ------- */
+  .stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-top:56px; }
+  .stat{
+    background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:26px 22px; text-align:center;
+  }
+  .stat .n{ font-size:clamp(34px,4.5vw,46px); font-weight:800; line-height:1.1; }
+  .stat .l{ font-family:var(--mono); font-size:11px; letter-spacing:2px; color:var(--blue); margin-top:6px; }
+  .stat .d{ font-size:12px; color:var(--text-mute); margin-top:8px; }
+
+  /* ------- closing tagline ------- */
+  .tagline{
+    border-top:1px solid var(--border-dim); padding:72px 0; text-align:center;
+  }
+  .tagline h2{ font-size:clamp(21px,3vw,30px); font-weight:700; line-height:1.6; }
+  .tagline h2 b{ color:var(--blue); }
+  .tagline .sub{ margin-top:14px; font-family:var(--mono); font-size:12px; color:var(--text-mute); }
+
   /* ------- video blocks ------- */
   .video-grid{ display:grid; gap:40px; margin-top:52px; }
   .video-item h3{ font-size:18px; font-weight:700; margin-bottom:6px; }
@@ -287,6 +318,7 @@
     <div class="hero-ctas">
       <a class="btn primary" href="./demo.html">오퍼레이터 콘솔 데모 →</a>
       <a class="btn" href="#demo">시연 영상 보기</a>
+      <a class="btn" href="./assets/supporty_proposal.pdf" download="SUPPORTY_기획서.pdf">기획서 PDF ↓</a>
       <a class="btn" href="https://github.com/jang961111-hash/supporty-site" id="gh-link">GitHub</a>
     </div>
 
@@ -309,8 +341,8 @@
       가장 절박한 순간에 청구됩니다.
     </p>
     <div class="testimony">
-      <blockquote>"6분만 빨랐어도, 다리를 지킬 수 있었다."</blockquote>
-      <cite>— 우크라이나 현지 인터뷰, 부상 병사의 증언 (2026)</cite>
+      <blockquote>"그날, 6분이 없어서 다리를 잃은 사람이 있었다."</blockquote>
+      <cite>— 우크라이나 전장 의용군 인터뷰 · 도보 지원조 도착 40분 소요, 차량 진입은 노출 위험으로 불가</cite>
     </div>
   </div>
 </section>
@@ -319,6 +351,24 @@
   <div class="wrap">
     <div class="sec-label">02 · SOLUTION</div>
     <h2>한 사람이, 한 화면에서,<br>여러 자산을 병렬로 지휘합니다.</h2>
+
+    <div class="pipeline">
+      <div class="step">
+        <div class="no">[01. REQUEST]</div>
+        <p>부대의 긴급 보급·정찰 요청 수신</p>
+      </div>
+      <div class="arr">→</div>
+      <div class="step">
+        <div class="no">[02. TRIAGE]</div>
+        <p>AI 코파일럿이 생명·시간 기준으로 우선순위 큐 정렬</p>
+      </div>
+      <div class="arr">→</div>
+      <div class="step">
+        <div class="no">[03. DEPLOY]</div>
+        <p>다기능 자산(UGV/VTOL) 최적 배분 및 배송</p>
+      </div>
+    </div>
+    <div class="pipeline-note">우리는 작전을 판단하지 않습니다. 누락 없는 지원을 실행할 뿐입니다 — 작전지속지원(Logistics) 영역의 As-a-Service 패러다임</div>
 
     <div class="sol-grid">
       <div class="sol-card">
@@ -339,6 +389,24 @@
         <p>오퍼레이터의 명령보다 안전 조건을 먼저 검증합니다. 서두르다 놓치는 게 아니라, 정확한 판단으로 지킵니다.</p>
         <div class="log">AIR-1 · CAL 미완료<br>→ 이륙 보류 · 사유 로그 기록됨</div>
       </div>
+      <div class="sol-card">
+        <span class="tag">SOFTWARE 04</span>
+        <h3>AI 트리아지 — 자동 우선순위</h3>
+        <p>생명 직결도 → 시간 민감도 → 임무 파급효과 순으로 시스템이 스스로 최적의 자산과 순서를 권고합니다. 통제관의 인지 과부하를 막습니다.</p>
+        <div class="log"><span class="op">P1</span> 부상자 긴급 의료품 보송 · UGV<br><span class="op">P2</span> 참호 재보급 · <span class="op">P3</span> 릴레이 브리지</div>
+      </div>
+      <div class="sol-card">
+        <span class="tag">SOFTWARE 05</span>
+        <h3>GPS 없이도 사는 항법</h3>
+        <p>GNSS가 재밍으로 사라져도 비전 기반 항법(SPARC AI Overwatch)으로 즉시 전환합니다. 적이 GPS를 지워도, 우리의 항법은 삽니다.</p>
+        <div class="log">GNSS: SATS 14 → 0 <span class="op">[WARNING]</span><br>NAV SOURCE: VISUAL ✓ · 오차 500m → 5m</div>
+      </div>
+      <div class="sol-card">
+        <span class="tag">SOFTWARE 06</span>
+        <h3>이동형 릴레이 브리지</h3>
+        <p>통신 모듈을 탑재한 무인체계 자체가 즉각적인 인프라가 됩니다. 통신 두절 부대에 UGV(지상)·VTOL(공중) 중계 노드를 전개합니다.</p>
+        <div class="log">VTOL · 공중 릴레이 Node 2 ACTIVE<br>12km Wide-Area Comm Network ✓</div>
+      </div>
     </div>
 
     <div class="comms">
@@ -354,6 +422,29 @@
         <div class="badge">요르단 수출 <b>✓</b></div>
         <div class="badge">UAE 수출 <b>✓</b></div>
         <div class="badge">우크라이나 실증 <b>준비 중</b></div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="n">4</div>
+        <div class="l">REQUESTS</div>
+        <div class="d">동시 처리된 복합 전술 지원 요청</div>
+      </div>
+      <div class="stat">
+        <div class="n">5</div>
+        <div class="l">ASSETS</div>
+        <div class="d">지상·항공·해상 자산의 단일 UI 통합</div>
+      </div>
+      <div class="stat">
+        <div class="n">1</div>
+        <div class="l">OPERATOR</div>
+        <div class="d">AI 코파일럿과 협업하는 단 한 명의 통제관</div>
+      </div>
+      <div class="stat">
+        <div class="n">0</div>
+        <div class="l">HOURS</div>
+        <div class="d">임무 공백 및 지원 누락 시간 제로</div>
       </div>
     </div>
   </div>
@@ -427,9 +518,9 @@
           <div class="hint">◀ 드래그해서 회전 ▶</div>
         </div>
         <div class="body">
-          <div class="id">UGV-1 · GROUND</div>
+          <div class="id">UGV-1 · GROUND · DEFENDER RC/UTV</div>
           <h3>지상 보급 차량</h3>
-          <p>4륜 오프로드 크롤러 · 전면 카메라 · G29 아날로그 정밀 조종 · 하이브리드 통신 모듈 탑재</p>
+          <p>4륜 오프로드 크롤러 · 전면 카메라 · G29 아날로그 정밀 조종 · RemoteX Cellular/Starlink Hot-standby 통신 모듈 탑재</p>
         </div>
       </div>
       <div class="hw-card">
@@ -441,9 +532,9 @@
           <div class="hint">◀ 드래그해서 회전 ▶</div>
         </div>
         <div class="body">
-          <div class="id">AIR-1 · VTOL</div>
+          <div class="id">AIR-1 · VTOL · HEEWING T2</div>
           <h3>플라잉윙 수직이착륙기</h3>
-          <p>무미익 고정익 + 트윈 붐 리프트 로터 · 노즈 카메라 · 고도 19M 실시간 영상 전송</p>
+          <p>무미익 고정익 + 트윈 붐 리프트 로터 · ArduPlane · SPARC AI Vision 통합 대기 · 노즈 카메라 · 고도 19M 실시간 영상 전송</p>
         </div>
       </div>
     </div>
@@ -478,6 +569,13 @@
   </div>
 </section>
 
+<section class="tagline">
+  <div class="wrap">
+    <h2>통신이 죽어도 <b>조종은 살고</b>,<br>GPS가 죽어도 <b>항법은 삽니다</b>.</h2>
+    <div class="sub">오퍼레이터 1명이 AI 코파일럿과 함께 전장의 생존을 연결합니다 — [ This is Contested Logistics-as-a-Service ]</div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap foot-in">
     <div>
@@ -485,6 +583,7 @@
       <p>D4D | Deploy for Defense Hackathon APAC — Seoul 2026<br>Track 1 · Autonomy, Unmanned Systems & Counter-UAS</p>
     </div>
     <div class="foot-links">
+      <a href="./assets/supporty_proposal.pdf" download="SUPPORTY_기획서.pdf">기획서 PDF</a>
       <a href="https://github.com/jang961111-hash/supporty-site">GitHub</a>
       <a href="./demo.html">Console Demo</a>
       <a href="#demo">Videos</a>
