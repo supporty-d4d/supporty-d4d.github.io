@@ -171,9 +171,25 @@
   .tl-card{
     position:relative; background:var(--panel); border:1px solid var(--border);
     border-left:3px solid var(--red);
-    border-radius:8px; padding:22px 24px; margin-bottom:18px;
+    border-radius:8px; margin-bottom:18px; overflow:hidden;
+    display:grid; grid-template-columns:1fr 190px;
     opacity:0; transform:translateY(14px);
     transition:opacity .6s ease, transform .6s ease;
+  }
+  .tl-card .tl-txt{ padding:22px 24px; }
+  .tl-card .shot{ position:relative; min-height:140px; }
+  .tl-card .shot img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    opacity:0.5; filter:grayscale(1);
+  }
+  .tl-card .shot::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(90deg, var(--panel) 0%, rgba(18,22,28,0.35) 45%, rgba(18,22,28,0) 100%);
+  }
+  @media (max-width:640px){
+    .tl-card{ grid-template-columns:1fr; }
+    .tl-card .shot{ height:160px; order:-1; }
+    .tl-card .shot::after{ background:linear-gradient(0deg, var(--panel) 0%, rgba(18,22,28,0.2) 60%, rgba(18,22,28,0) 100%); }
   }
   .tl-card.vis{ opacity:1; transform:none; }
   @media (prefers-reduced-motion: reduce){
@@ -465,23 +481,36 @@
     </p>
 
     <div class="interview-label">REAL INTERVIEW · 다리를 잃은 한 병사의 증언</div>
+    <p style="margin-top:12px; font-family:var(--mono); font-size:11px; color:var(--text-mute);">아래 사진은 인터뷰이가 직접 제공한 실제 현장 기록입니다.</p>
 
     <div class="tl">
       <div class="tl-card">
-        <div class="t">01 · 고립</div>
-        <p>"치열한 상황이었습니다. 아군 피해가 커질 것 같아서, 아무도 저를 구하러 오지 못했습니다."</p>
+        <div class="tl-txt">
+          <div class="t">01 · 고립</div>
+          <p>"치열한 상황이었습니다. 아군 피해가 커질 것 같아서, 아무도 저를 구하러 오지 못했습니다."</p>
+        </div>
+        <div class="shot"><img src="./assets/story_1.webp" alt="들판에 홀로 쓰러져 있는 병사 — 인터뷰이 제공" loading="lazy"></div>
       </div>
       <div class="tl-card">
-        <div class="t">02 · 출혈</div>
-        <p>"다리에서는 계속 피가 났습니다. 너무 살고 싶었습니다. PMC가 떠올랐지만 — 연락할 수단도, 지원이 가능한지 여부조차 확인할 수 없었습니다."</p>
+        <div class="tl-txt">
+          <div class="t">02 · 출혈</div>
+          <p>"다리에서는 계속 피가 났습니다. 너무 살고 싶었습니다. PMC가 떠올랐지만 — 연락할 수단도, 지원이 가능한지 여부조차 확인할 수 없었습니다."</p>
+        </div>
+        <div class="shot"><img src="./assets/story_2.webp" alt="피에 젖은 전투화 — 인터뷰이 제공" loading="lazy"></div>
       </div>
       <div class="tl-card">
-        <div class="t">03 · 간절함</div>
-        <p>"돈이 얼마가 들든 살고 싶었습니다."</p>
+        <div class="tl-txt">
+          <div class="t">03 · 간절함</div>
+          <p>"돈이 얼마가 들든 살고 싶었습니다."</p>
+        </div>
+        <div class="shot"><img src="./assets/story_3.webp" alt="동료들에게 부축받아 이동하는 부상병 — 인터뷰이 제공" loading="lazy"></div>
       </div>
       <div class="tl-card">
-        <div class="t">04 · 결과</div>
-        <p>"결국 다리를 잃었습니다. 하지만 적절한 조치가 제때 있었다면, 다리까지 잃지는 않았을 겁니다."</p>
+        <div class="tl-txt">
+          <div class="t">04 · 결과</div>
+          <p>"결국 다리를 잃었습니다. 하지만 적절한 조치가 제때 있었다면, 다리까지 잃지는 않았을 겁니다."</p>
+        </div>
+        <div class="shot"><img src="./assets/story_4.webp" alt="들것 위 다리 부상 병사 — 인터뷰이 제공" loading="lazy"></div>
       </div>
     </div>
 
