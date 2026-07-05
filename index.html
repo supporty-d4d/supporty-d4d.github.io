@@ -325,7 +325,19 @@
   .partners-head{ font-family:var(--mono); font-size:12px; color:var(--blue); letter-spacing:2px; margin:72px 0 12px; }
   .partners-body{ color:var(--text-dim); max-width:680px; font-size:15px; margin-top:16px; }
   .partners-body + .partners-body{ margin-top:12px; }
-  .partner-row{ display:flex; gap:12px; overflow-x:auto; margin-top:28px; padding-bottom:8px; }
+  .partner-row{ overflow:hidden; margin-top:28px; padding-bottom:8px; position:relative; }
+  .partner-row::before, .partner-row::after{
+    content:''; position:absolute; top:0; bottom:0; width:48px; z-index:2; pointer-events:none;
+  }
+  .partner-row::before{ left:0; background:linear-gradient(90deg, var(--bg), transparent); }
+  .partner-row::after{ right:0; background:linear-gradient(-90deg, var(--bg), transparent); }
+  .partner-track{ display:flex; gap:12px; width:max-content; animation:pscroll 32s linear infinite; }
+  .partner-row:hover .partner-track{ animation-play-state:paused; }
+  @keyframes pscroll{ to{ transform:translateX(calc(-50% - 6px)); } }
+  @media (prefers-reduced-motion: reduce){
+    .partner-track{ animation:none; }
+    .partner-row{ overflow-x:auto; }
+  }
   .partner-row .pcard{
     flex-shrink:0; background:var(--panel); border:1px solid var(--border); border-radius:8px;
     padding:16px 24px; font-family:var(--mono); font-size:13px; font-weight:600; white-space:nowrap;
@@ -905,6 +917,7 @@
     </p>
 
     <div class="partner-row">
+      <div class="partner-track" id="partner-track">
       <div class="pcard host"><span>주최</span>EGCED Tech (익시드테크)</div>
       <div class="pcard"><span>협력</span>BONE AI</div>
       <div class="pcard"><span>협력</span>F4GE</div>
@@ -914,6 +927,7 @@
       <div class="pcard"><span>협력</span>European Defense Tech Hub (EDTH)</div>
       <div class="pcard"><span>협력</span>Oregon UAS Accelerator</div>
       <div class="pcard"><span>협력</span>Bloom</div>
+      </div>
     </div>
 
     <p class="partners-close">그리고 함께 72시간을 싸운 모든 참가팀들에게.<br>우리는 여기서 <b>멈추지 않겠습니다</b>.</p>
@@ -1088,6 +1102,13 @@ document.querySelectorAll('[data-spin]').forEach(function(box){
   }, {passive:true});
 
   start();
+})();
+
+// 파트너사 카드 무한 자동 흐름 — 카드 한 벌 복제해서 심리스 루프
+(function(){
+  var track = document.getElementById('partner-track');
+  if (!track) return;
+  track.innerHTML += track.innerHTML;
 })();
 </script>
 
