@@ -330,6 +330,11 @@
     flex-shrink:0; background:var(--panel); border:1px solid var(--border); border-radius:8px;
     padding:16px 24px; font-family:var(--mono); font-size:13px; font-weight:600; white-space:nowrap;
   }
+  .partner-row .pcard span{
+    display:block; font-size:9.5px; letter-spacing:2px; color:var(--text-mute); font-weight:500; margin-bottom:4px;
+  }
+  .partner-row .pcard.host{ border-color:var(--blue); }
+  .partner-row .pcard.host span{ color:var(--blue); }
   .partners-close{ margin-top:30px; font-size:15.5px; font-weight:600; }
   .partners-close b{ color:var(--blue); }
 
@@ -900,12 +905,15 @@
     </p>
 
     <div class="partner-row">
-      <div class="pcard">BONE</div>
-      <div class="pcard">StealthMole</div>
-      <div class="pcard">F4GE</div>
-      <div class="pcard">Oregon UAS Accelerator</div>
-      <div class="pcard">Bloom</div>
-      <div class="pcard">익시드테크 (EGCED Tech)</div>
+      <div class="pcard host"><span>주최</span>EGCED Tech (익시드테크)</div>
+      <div class="pcard"><span>협력</span>BONE AI</div>
+      <div class="pcard"><span>협력</span>F4GE</div>
+      <div class="pcard"><span>협력</span>StealthMole</div>
+      <div class="pcard"><span>협력</span>Morph Systems</div>
+      <div class="pcard"><span>협력</span>Prairie Schooner</div>
+      <div class="pcard"><span>협력</span>European Defense Tech Hub (EDTH)</div>
+      <div class="pcard"><span>협력</span>Oregon UAS Accelerator</div>
+      <div class="pcard"><span>협력</span>Bloom</div>
     </div>
 
     <p class="partners-close">그리고 함께 72시간을 싸운 모든 참가팀들에게.<br>우리는 여기서 <b>멈추지 않겠습니다</b>.</p>
@@ -952,7 +960,7 @@
       <a class="logo" href="#top" aria-label="맨 위로 이동">SUPPO<b>RTY</b></a>
       <p>D4D | Deploy for Defense Hackathon APAC — Seoul 2026<br>Track 1 · Autonomy, Unmanned Systems & Counter-UAS<br>
       <a href="mailto:contact@mechanik.kr">contact@mechanik.kr</a> · <a href="mailto:jang961111@gmail.com">jang961111@gmail.com</a><br>
-      BONE · StealthMole · F4GE · Oregon UAS · Bloom</p>
+      EGCED Tech · BONE AI · F4GE · StealthMole · Morph Systems · Prairie Schooner · EDTH · Oregon UAS · Bloom</p>
     </div>
     <div class="foot-links">
       <a href="./assets/supporty_proposal.pdf" download="SUPPORTY_기획서.pdf">기획서 PDF</a>
@@ -1021,15 +1029,13 @@ document.querySelectorAll('[data-spin]').forEach(function(box){
     "Oregon UAS Accelerator",
     "D4D 공식 키트 — 명찰, 패치, 군번줄",
     "팀 Supporty — 첫째 날",
-    "팀 Supporty — 해커톤 현장",
     "개발 현장 — 플라잉윙 + 디펜더 + 노트북",
-    "개발 현장 — 와이드샷",
     "VTOL 외부 세팅 — 옥상",
     "심사 데모 세팅 — UGV + 조이스틱"
   ];
   var files = ["g01_d4d_stage","g02_d4d_keynote","g03_stealthmole","g04_korea_trusts_you",
-    "g05_f4ge","g06_oregon_uas","g07_d4d_kit","g08_team_1","g09_team_2",
-    "g10_dev","g11_dev_wide","g12_vtol_setup","g13_demo_setup"];
+    "g05_f4ge","g06_oregon_uas","g07_d4d_kit","g08_team_1",
+    "g10_dev","g12_vtol_setup","g13_demo_setup"];
 
   var box = document.getElementById('gallery');
   if (!box) return;
