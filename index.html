@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SUPPORTY — 6분이 3초가 됩니다</title>
 <meta name="description" content="하이브리드 통신 기반 1인 다중 무인체계 통제 시스템. Contested Logistics-as-a-Service.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SUPPORTY — 전장의 6분을, 3초로">
+<meta property="og:description" content="하이브리드 통신 기반 1인 다중 무인체계 통제 시스템. Contested Logistics-as-a-Service. D4D Seoul 2026.">
+<meta property="og:url" content="https://supporty-d4d.github.io/">
+<meta property="og:image" content="https://supporty-d4d.github.io/assets/console_capture.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -58,6 +65,8 @@
   .nav-in{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:1080px; margin:0 auto; }
   .logo{ font-weight:700; font-size:17px; letter-spacing:2px; color:var(--text); }
   .logo b{ color:var(--blue); }
+  a.logo{ cursor:pointer; display:inline-block; }
+  a.logo:hover{ text-decoration:none; opacity:0.85; }
   .nav-links{ display:flex; gap:24px; font-size:13px; }
   .nav-links a{ color:var(--text-dim); }
   .nav-links a:hover{ color:var(--text); text-decoration:none; }
@@ -401,7 +410,7 @@
   .foot-links{ display:flex; gap:20px; font-size:13px; }
 </style>
 </head>
-<body>
+<body id="top">
 
 <div class="telemetry">
   <div class="inner">
@@ -412,7 +421,7 @@
 
 <nav>
   <div class="nav-in">
-    <div class="logo">SUPPO<b>RTY</b></div>
+    <a class="logo" href="#top" aria-label="맨 위로 이동">SUPPO<b>RTY</b></a>
     <div class="nav-links">
       <a href="#origin">스토리</a>
       <a href="#problem">문제</a>
@@ -738,10 +747,10 @@
     <div class="hw-grid">
       <div class="hw-card">
         <div class="imgbox spinbox" data-spin>
-          <img src="./assets/ugv_0.webp" class="on" alt="지상 무인차량 정면" draggable="false">
-          <img src="./assets/ugv_1.webp" alt="지상 무인차량 전측면" draggable="false">
-          <img src="./assets/ugv_2.webp" alt="지상 무인차량 측면" draggable="false">
-          <img src="./assets/ugv_3.webp" alt="지상 무인차량 후면" draggable="false">
+          <img src="./assets/ugv_0.webp" class="on" alt="지상 무인차량 정면" draggable="false" loading="lazy">
+          <img src="./assets/ugv_1.webp" alt="지상 무인차량 전측면" draggable="false" loading="lazy">
+          <img src="./assets/ugv_2.webp" alt="지상 무인차량 측면" draggable="false" loading="lazy">
+          <img src="./assets/ugv_3.webp" alt="지상 무인차량 후면" draggable="false" loading="lazy">
           <div class="floor"></div>
           <div class="badge360">360° VIEW</div>
           <div class="hint">◀ 드래그해서 회전 ▶</div>
@@ -754,8 +763,8 @@
       </div>
       <div class="hw-card">
         <div class="imgbox spinbox" data-spin>
-          <img src="./assets/vtol_0.webp" class="on" alt="수직이착륙 무인기 전측면" draggable="false">
-          <img src="./assets/vtol_1.webp" alt="수직이착륙 무인기 후측면" draggable="false">
+          <img src="./assets/vtol_0.webp" class="on" alt="수직이착륙 무인기 전측면" draggable="false" loading="lazy">
+          <img src="./assets/vtol_1.webp" alt="수직이착륙 무인기 후측면" draggable="false" loading="lazy">
           <div class="floor"></div>
           <div class="badge360">360° VIEW</div>
           <div class="hint">◀ 드래그해서 회전 ▶</div>
@@ -809,7 +818,7 @@
 <footer>
   <div class="wrap foot-in">
     <div>
-      <div class="logo">SUPPO<b>RTY</b></div>
+      <a class="logo" href="#top" aria-label="맨 위로 이동">SUPPO<b>RTY</b></a>
       <p>D4D | Deploy for Defense Hackathon APAC — Seoul 2026<br>Track 1 · Autonomy, Unmanned Systems & Counter-UAS</p>
     </div>
     <div class="foot-links">
