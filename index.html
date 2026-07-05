@@ -289,6 +289,66 @@
   .stat .l{ font-family:var(--mono); font-size:11px; letter-spacing:2px; color:var(--blue); margin-top:6px; }
   .stat .d{ font-size:12px; color:var(--text-mute); margin-top:8px; }
 
+  /* ------- journey gallery ------- */
+  .carousel{
+    position:relative; margin-top:48px; border:1px solid var(--border); border-radius:10px;
+    overflow:hidden; aspect-ratio:16/9; background:var(--bg-raise);
+    touch-action:pan-y;
+  }
+  .carousel .slide{ position:absolute; inset:0; opacity:0; transition:opacity .6s ease; pointer-events:none; }
+  .carousel .slide.on{ opacity:1; pointer-events:auto; }
+  @media (prefers-reduced-motion: reduce){ .carousel .slide{ transition:none; } }
+  .carousel .slide img{ width:100%; height:100%; object-fit:cover; }
+  .carousel .cap{
+    position:absolute; left:0; right:0; bottom:0; z-index:2;
+    padding:44px 22px 16px; color:#fff;
+    font-family:var(--mono); font-size:12px; letter-spacing:0.5px;
+    background:linear-gradient(transparent, rgba(0,0,0,0.78));
+  }
+  .carousel .arr{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+    width:42px; height:42px; border-radius:50%; border:1px solid var(--border);
+    background:rgba(10,13,17,0.65); color:var(--text); font-size:17px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; font-family:var(--mono);
+  }
+  .carousel .arr:hover{ border-color:var(--blue); color:var(--blue); }
+  .carousel .arr.prev{ left:14px; }
+  .carousel .arr.next{ right:14px; }
+  .dots{ display:flex; gap:7px; justify-content:center; margin-top:16px; flex-wrap:wrap; }
+  .dots button{
+    width:9px; height:9px; border-radius:50%; border:none; cursor:pointer;
+    background:var(--border); padding:0;
+  }
+  .dots button.on{ background:var(--blue); }
+
+  /* ------- partners ------- */
+  .partners-head{ font-family:var(--mono); font-size:12px; color:var(--blue); letter-spacing:2px; margin:72px 0 12px; }
+  .partners-body{ color:var(--text-dim); max-width:680px; font-size:15px; margin-top:16px; }
+  .partners-body + .partners-body{ margin-top:12px; }
+  .partner-row{ display:flex; gap:12px; overflow-x:auto; margin-top:28px; padding-bottom:8px; }
+  .partner-row .pcard{
+    flex-shrink:0; background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:16px 24px; font-family:var(--mono); font-size:13px; font-weight:600; white-space:nowrap;
+  }
+  .partners-close{ margin-top:30px; font-size:15.5px; font-weight:600; }
+  .partners-close b{ color:var(--blue); }
+
+  /* ------- contact ------- */
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:48px; }
+  @media (max-width:720px){ .contact-grid{ grid-template-columns:1fr; } }
+  .ccard{
+    background:var(--panel); border:1px solid var(--border); border-top:3px solid var(--red);
+    border-radius:8px; padding:28px 26px;
+  }
+  .ccard .role{ font-family:var(--mono); font-size:10.5px; letter-spacing:1.5px; color:var(--red); margin-bottom:12px; }
+  .ccard .role.blue{ color:var(--blue); }
+  .ccard h3{ font-size:20px; font-weight:700; margin-bottom:10px; }
+  .ccard .line{ font-size:13px; color:var(--text-dim); margin-bottom:16px; }
+  .ccard .field{ font-family:var(--mono); font-size:13px; margin-bottom:6px; }
+  .ccard .field a{ color:var(--text); }
+  .ccard .field a:hover{ color:var(--blue); }
+  .ccard .btn{ margin-top:18px; }
+
   /* ------- closing tagline ------- */
   .tagline{
     border-top:1px solid var(--border-dim); padding:72px 0; text-align:center;
@@ -430,6 +490,8 @@
       <a href="#scenarios">작전 시나리오</a>
       <a href="#hardware">하드웨어</a>
       <a href="#team">팀</a>
+      <a href="#journey">여정</a>
+      <a href="#contact">연락</a>
     </div>
     <a class="nav-cta" href="http://54.180.123.161:8300/console" target="_blank" rel="noopener">LIVE CONSOLE →</a>
   </div>
@@ -808,6 +870,75 @@
   </div>
 </section>
 
+<section id="journey">
+  <div class="wrap">
+    <div class="sec-label">07 · JOURNEY — 72시간의 기록</div>
+    <h2>우리가 치열하게 고민한 3일.</h2>
+    <p class="sec-intro">
+      2026년 7월 3일부터 5일까지, 서울 D4D(Deploy for Defense) —
+      밤을 새워 코드를 짜고, 장비를 뜯어보며 '이 기술이 정말 사람을 살릴 수 있는가'를
+      끝까지 물었습니다. 그 72시간이 SUPPORTY를 만들었습니다.
+    </p>
+
+    <div class="carousel" id="gallery" aria-label="72시간 현장 사진 슬라이드">
+      <button class="arr prev" aria-label="이전 사진">&#8249;</button>
+      <button class="arr next" aria-label="다음 사진">&#8250;</button>
+      <div class="cap" id="gallery-cap"></div>
+    </div>
+    <div class="dots" id="gallery-dots"></div>
+
+    <div class="partners-head">PARTNERS &amp; SPONSORS</div>
+    <h2 style="font-size:clamp(22px,3vw,30px)">D4D를 만들어주신 모든 분들께</h2>
+    <p class="partners-body">
+      익시드테크(EGCED Tech)와 모든 스태프 분들이 만들어주신 이 자리에서,
+      저희는 단순한 결과물을 넘어 디펜스 테크 생태계의 실제 고민을 배웠습니다.
+    </p>
+    <p class="partners-body">
+      F4GE의 'Production Wins Wars', Oregon UAS Accelerator의 이중용도
+      스타트업 지원 철학, StealthMole의 사이버 보안 인사이트,
+      BONE의 드론 생태계 관점 — 이 모든 강연과 멘토링이 저희 사고를 넓혀주었습니다.
+    </p>
+
+    <div class="partner-row">
+      <div class="pcard">BONE</div>
+      <div class="pcard">StealthMole</div>
+      <div class="pcard">F4GE</div>
+      <div class="pcard">Oregon UAS Accelerator</div>
+      <div class="pcard">Bloom</div>
+      <div class="pcard">익시드테크 (EGCED Tech)</div>
+    </div>
+
+    <p class="partners-close">그리고 함께 72시간을 싸운 모든 참가팀들에게.<br>우리는 여기서 <b>멈추지 않겠습니다</b>.</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-label">CONTACT</div>
+    <h2>함께 만들어갈 분들을 기다립니다.</h2>
+    <p class="sec-intro">투자, 협업, 기술 문의 — 어떤 이야기든 환영합니다.</p>
+
+    <div class="contact-grid">
+      <div class="ccard">
+        <div class="role">LEAD · HARDWARE &amp; OPERATIONS</div>
+        <h3>김현기</h3>
+        <p class="line">특전사 9년 전역 · PMC 스타트업 · 통신 모듈 수출</p>
+        <div class="field">✉ <a href="mailto:contact@mechanik.kr">contact@mechanik.kr</a></div>
+        <div class="field">☎ <a href="tel:010-8011-2461">010-8011-2461</a></div>
+        <a class="btn primary" href="mailto:contact@mechanik.kr">이메일 보내기 →</a>
+      </div>
+      <div class="ccard">
+        <div class="role blue">PLANNING · PRODUCT &amp; SOFTWARE</div>
+        <h3>장병헌</h3>
+        <p class="line">해병대 전역 · SSAFY 14기 · 오퍼레이터 콘솔 설계</p>
+        <div class="field">✉ <a href="mailto:jang961111@gmail.com">jang961111@gmail.com</a></div>
+        <div class="field">☎ <a href="tel:010-7393-3120">010-7393-3120</a></div>
+        <a class="btn primary" href="mailto:jang961111@gmail.com">이메일 보내기 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="tagline">
   <div class="wrap">
     <h2>적이 통신을 끊어도, 우리는 <b>멈추지 않습니다</b>.<br>적이 GPS를 지워도, 우리는 <b>길을 잃지 않습니다</b>.</h2>
@@ -819,7 +950,9 @@
   <div class="wrap foot-in">
     <div>
       <a class="logo" href="#top" aria-label="맨 위로 이동">SUPPO<b>RTY</b></a>
-      <p>D4D | Deploy for Defense Hackathon APAC — Seoul 2026<br>Track 1 · Autonomy, Unmanned Systems & Counter-UAS</p>
+      <p>D4D | Deploy for Defense Hackathon APAC — Seoul 2026<br>Track 1 · Autonomy, Unmanned Systems & Counter-UAS<br>
+      <a href="mailto:contact@mechanik.kr">contact@mechanik.kr</a> · <a href="mailto:jang961111@gmail.com">jang961111@gmail.com</a><br>
+      BONE · StealthMole · F4GE · Oregon UAS · Bloom</p>
     </div>
     <div class="foot-links">
       <a href="./assets/supporty_proposal.pdf" download="SUPPORTY_기획서.pdf">기획서 PDF</a>
@@ -875,6 +1008,80 @@ document.querySelectorAll('[data-spin]').forEach(function(box){
     });
   }, {threshold: 0.25});
   cards.forEach(function(c, i){ c.dataset.delay = i * 150; io.observe(c); });
+})();
+
+// 72시간 갤러리 캐러셀
+(function(){
+  var captions = [
+    "D4D Deploy for Defense — Seoul 2026.07.03-05",
+    "D4D 행사장 — 개막 키노트",
+    "파트너사 StealthMole 소개",
+    "이 곳을 거친 자여, 대한민국은 그대를 믿노라",
+    "F4GE — Production Wins Wars",
+    "Oregon UAS Accelerator",
+    "D4D 공식 키트 — 명찰, 패치, 군번줄",
+    "팀 Supporty — 첫째 날",
+    "팀 Supporty — 해커톤 현장",
+    "개발 현장 — 플라잉윙 + 디펜더 + 노트북",
+    "개발 현장 — 와이드샷",
+    "VTOL 외부 세팅 — 옥상",
+    "심사 데모 세팅 — UGV + 조이스틱"
+  ];
+  var files = ["g01_d4d_stage","g02_d4d_keynote","g03_stealthmole","g04_korea_trusts_you",
+    "g05_f4ge","g06_oregon_uas","g07_d4d_kit","g08_team_1","g09_team_2",
+    "g10_dev","g11_dev_wide","g12_vtol_setup","g13_demo_setup"];
+
+  var box = document.getElementById('gallery');
+  if (!box) return;
+  var capEl = document.getElementById('gallery-cap');
+  var dotsEl = document.getElementById('gallery-dots');
+  var slides = [], dots = [], idx = 0, timer = null;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  files.forEach(function(f, i){
+    var s = document.createElement('div');
+    s.className = 'slide' + (i === 0 ? ' on' : '');
+    var img = document.createElement('img');
+    img.src = './assets/gallery/' + f + '.jpg';
+    img.alt = captions[i];
+    img.loading = i === 0 ? 'eager' : 'lazy';
+    s.appendChild(img);
+    box.insertBefore(s, capEl);
+    slides.push(s);
+    var d = document.createElement('button');
+    d.setAttribute('aria-label', (i + 1) + '번 사진');
+    if (i === 0) d.className = 'on';
+    d.addEventListener('click', function(){ show(i); restart(); });
+    dotsEl.appendChild(d);
+    dots.push(d);
+  });
+  capEl.textContent = captions[0];
+
+  function show(i){
+    idx = ((i % slides.length) + slides.length) % slides.length;
+    slides.forEach(function(s, n){ s.classList.toggle('on', n === idx); });
+    dots.forEach(function(d, n){ d.classList.toggle('on', n === idx); });
+    capEl.textContent = captions[idx];
+  }
+  function start(){ if (!reduced && !timer) timer = setInterval(function(){ show(idx + 1); }, 3500); }
+  function stop(){ clearInterval(timer); timer = null; }
+  function restart(){ stop(); start(); }
+
+  box.querySelector('.arr.prev').addEventListener('click', function(){ show(idx - 1); restart(); });
+  box.querySelector('.arr.next').addEventListener('click', function(){ show(idx + 1); restart(); });
+  box.addEventListener('mouseenter', stop);
+  box.addEventListener('mouseleave', start);
+
+  var sx = null;
+  box.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; stop(); }, {passive:true});
+  box.addEventListener('touchend', function(e){
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx;
+    if (Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1));
+    sx = null; start();
+  }, {passive:true});
+
+  start();
 })();
 </script>
 
